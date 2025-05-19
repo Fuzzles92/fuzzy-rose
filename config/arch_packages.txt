@@ -6,3 +6,4 @@ libreoffice-fresh
 timeshift
 git
 vlc
+okular

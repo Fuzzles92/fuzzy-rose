@@ -3,13 +3,7 @@
 # === Details ===
 # Created by: Fuzzles92
 # Created: May 07 2025
-# Version: 1.1
-
-# === To Do ===
-# flatpak
-# yay package install
-# paru package install
-
+# Version: 1.2
 
 # === Colour Definitions ===
 arch_start="\e[1;34m"    # Bold blue for Arch
@@ -23,8 +17,6 @@ red_finish="\033[0m"
 
 # === Variables ===
 arch_packages="./config/arch_packages.txt"
-flatpak_packages="./flatpak_packages.txt"
-yay_packages="./yay_packages.txt"
 
 echo
 echo -e "$arch_start"
@@ -170,34 +162,6 @@ case "$aur_choice" in
         echo -e "${red_start}Invalid choice. Skipping AUR helper installation.${red_finish}"
         ;;
 esac
-
-# === Optional: Flatpak & Flathub ============================================
-echo
-echo -e "${arch_start}Flatpak Installation...${arch_finish}"
-read -rp "Would you like to install Flatpak and add the Flathub repo? (y/n): " flatpak_choice
-if [[ "$flatpak_choice" =~ ^[Yy]$ ]]; then
-    echo "Installing flatpak …"
-    if sudo pacman -S --noconfirm flatpak ; then
-        echo -e "${green_start}✔ Flatpak installed.${green_finish}"
-
-        # Enable Flathub if not present
-        #if ! flatpak remote-list | grep -q '^flathub[[:space:]]'; then
-        #    echo "Adding Flathub remote …"
-        #    sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-        #fi
-
-        #echo "Refreshing Flatpak remotes …"
-        #flatpak remote-ls --system >/dev/null  # quick query to trigger refresh
-
-        echo -e "${green_start}✔ Flatpak & Flathub ready to use.${green_finish}"
-    else
-        echo -e "${red_start}✖ Flatpak installation failed.${red_finish}"
-    fi
-else
-    echo
-    echo -e "${yellow_start}Skipping Flatpak Setup...${yellow_finish}"
-fi
-# ============================================================================
 
 # === Placeholder for Further Arch Setup ===
 echo
