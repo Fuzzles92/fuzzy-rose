@@ -6,8 +6,7 @@
 # Version: 1.1
 
 # === To Do ===
-# add matlib repo
-# add steam to arch_packages
+# flatpak
 # yay package install
 # paru package install
 
@@ -71,12 +70,43 @@ if [[ "$confirm_update" =~ ^[Yy]$ ]]; then
     if [ $? -eq 0 ]; then
         echo
         echo -e "${green_start}✔ Arch Linux Update Complete${green_finish}"
+        echo
     else
         echo -e "${red_start}✖ Update failed. Please check the error messages above.${red_finish}"
     fi
 else
     echo
     echo -e "${yellow_start}Skipping System Update...${yellow_finish}"
+    echo
+fi
+
+# === Enable multilib repository (optional) ===
+echo -e "${arch_start}Multilib Repo Check...${arch_finish}"
+if grep -Eq "^[[:space:]]*\[multilib\]" /etc/pacman.conf ; then
+    echo -e "${green_start}multilib repo already enabled.${green_finish}"
+else
+    echo -e "${yellow_start}multilib repo disabled or missing.${yellow_finish}"
+    read -rp "Add & enable multilib repo before continuing? (y/n): " enable_multilib
+    if [[ "$enable_multilib" =~ ^[Yy]$ ]]; then
+        echo "Adding multilib block to /etc/pacman.conf …"
+        sudo tee -a /etc/pacman.conf >/dev/null <<'MULTILIB'
+[multilib]
+Include = /etc/pacman.d/mirrorlist
+MULTILIB
+        if grep -Eq "^[[:space:]]*\[multilib\]" /etc/pacman.conf ; then
+            echo
+            echo -e "${green_start}✔ Multilib Repo Enabled and Saved.${green_finish}"
+            echo
+            echo "Refreshing package database …"
+            sudo pacman -Sy
+        else
+            echo
+            echo -e "${red_start}✖ Could not write multilib section – please edit /etc/pacman.conf manually.${red_finish}"
+        fi
+    else
+        echo
+        echo -e "${yellow_start}Skipping Multilib Enablement.${yellow_finish}"
+    fi
 fi
 
 # === Install via Pacman ===
@@ -140,6 +170,34 @@ case "$aur_choice" in
         echo -e "${red_start}Invalid choice. Skipping AUR helper installation.${red_finish}"
         ;;
 esac
+
+# === Optional: Flatpak & Flathub ============================================
+echo
+echo -e "${arch_start}Flatpak Installation...${arch_finish}"
+read -rp "Would you like to install Flatpak and add the Flathub repo? (y/n): " flatpak_choice
+if [[ "$flatpak_choice" =~ ^[Yy]$ ]]; then
+    echo "Installing flatpak …"
+    if sudo pacman -S --noconfirm flatpak ; then
+        echo -e "${green_start}✔ Flatpak installed.${green_finish}"
+
+        # Enable Flathub if not present
+        #if ! flatpak remote-list | grep -q '^flathub[[:space:]]'; then
+        #    echo "Adding Flathub remote …"
+        #    sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+        #fi
+
+        #echo "Refreshing Flatpak remotes …"
+        #flatpak remote-ls --system >/dev/null  # quick query to trigger refresh
+
+        echo -e "${green_start}✔ Flatpak & Flathub ready to use.${green_finish}"
+    else
+        echo -e "${red_start}✖ Flatpak installation failed.${red_finish}"
+    fi
+else
+    echo
+    echo -e "${yellow_start}Skipping Flatpak Setup...${yellow_finish}"
+fi
+# ============================================================================
 
 # === Placeholder for Further Arch Setup ===
 echo

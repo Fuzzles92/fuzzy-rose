@@ -1,5 +1,6 @@
 firefox
 discord
+steam
 spotify-launcher
 libreoffice-fresh
 timeshift
