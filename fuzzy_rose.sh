@@ -12,8 +12,8 @@ pink_finish="\e[0m"
 # === Welcome Screen ===
 clear
 echo -e $pink_start"=========================================="$pink_finish
-echo -e $pink_start"         🌹 Welcome to Project_Rose        "$pink_finish
-echo -e $pink_start"     A Linux Distro Management Toolkit     "$pink_finish
+echo -e $pink_start"         🌹 Welcome to Fuzzy Rose         "$pink_finish
+echo -e $pink_start"     A Linux Distro Management Toolit     "$pink_finish
 echo -e $pink_start"=========================================="$pink_finish
 echo
 

@@ -5,7 +5,9 @@
 # Created: May 07 2025
 # Version: 1.1
 
+# === To Do ===
 # add matlib repo
+# add steam to arch_packages
 
 
 # === Colour Definitions ===
@@ -78,7 +80,7 @@ fi
 # === Install via Pacman ===
 echo
 echo -e "${arch_start}Pacman Package Installation...${arch_finish}"
-echo "Would you like to install some commonly used packages (git, vim, htop)?"
+echo "Would you like to install some commonly used packages via arch_packages"
 read -p "Install packages? (y/n): " confirm_install
 if [[ "$confirm_install" =~ ^[Yy]$ ]]; then
     echo "Installing Packages..."
@@ -97,6 +99,7 @@ fi
 
 # === Install AUR Helper ===
 echo
+echo -e "${arch_start}AUR Helper Installation...${arch_finish}"
 echo "Would you like to install an AUR helper?"
 echo "1) yay"
 echo "2) paru"

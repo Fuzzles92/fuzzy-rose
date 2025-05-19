@@ -1,2 +1,8 @@
-git
 neofetch
+vlc
+discord
+spotify-launcher
+libreoffice-fresh
+timeshift
+git
+vlc
