@@ -8,6 +8,8 @@
 # === To Do ===
 # add matlib repo
 # add steam to arch_packages
+# yay package install
+# paru package install
 
 
 # === Colour Definitions ===

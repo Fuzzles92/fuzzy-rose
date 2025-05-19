@@ -63,19 +63,20 @@ fi
 
 # === Install Packages from .txt File ===
 echo -e "${red_start}Package Installation...${red_finish}"
-read -p "Do you want to install packages from $debian_package? (y/n): " confirm_install
+read -p "Do you want to install packages from $debian_packages? (y/n): " confirm_install
 if [[ "$confirm_install" =~ ^[Yy]$ ]]; then
     # Check if the file exists
-    if [[ -f "$debian_package" ]]; then
-        echo "Installing packages from $debian_package..."
+    if [[ -f "$debian_packages" ]]; then
+        echo "Installing packages from $debian_packages..."
 
         # Install packages using apt-get
-        sudo apt-get install -y $(cat "$debian_packages")
+        sudo apt-get install -y $(< "$debian_packages") #$(cat "$debian_packages")
 
         if [ $? -eq 0 ]; then
+            echo
             echo -e "$green_start✔ Packages Installed Successfully.$green_finish"
         else
-            echo -e "$red_start✖ Failed to install packages from $debian_packages.$red_finish"
+            echo -e "$red_start✖ Failed to install packages from $debian_packages $red_finish"
         fi
     else
         echo
