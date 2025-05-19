@@ -1,0 +1,2 @@
+timeshift-autosnap
+teamviewer

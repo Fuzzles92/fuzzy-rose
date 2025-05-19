@@ -1,0 +1,4 @@
+com.github.tchx84.Flatseal
+io.github.dvlv.boxbuddyrs
+io.gitlab.adhami3310.Impression
+org.kde.okular
