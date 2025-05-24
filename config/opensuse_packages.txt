@@ -1,8 +1,7 @@
-firefox
 discord
 steam
 spotify-launcher
-libreoffice-fresh
+libreoffice
 timeshift
 git
 vlc
