@@ -1,5 +1,4 @@
 vlc
 git
-neofetch
 libreoffice
 firefox-esr

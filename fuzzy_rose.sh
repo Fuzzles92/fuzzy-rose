@@ -31,15 +31,6 @@ fi
 # === Follow-up Actions ===
 echo "Detected distribution: $FINAL_DISTRO"
 
-# === Arch Linux Trigger ===
-# if [[ "$FINAL_DISTRO" == "arch" ]]; then
-#     echo "Arch Linux Detected! Running Arch-specific setup..."
-#     bash scripts/arch_linux.sh
-# else
-#     echo "No Arch Linux detected. Proceeding with other tasks..."
-#     # Placeholder for other distro logic (Debian, Fedora, etc.)
-# fi
-
 if [[ "$FINAL_DISTRO" == "arch" ]]; then
     echo "Arch Linux Detected! Running Arch-specific setup..."
     bash scripts/arch_linux.sh
@@ -47,6 +38,10 @@ if [[ "$FINAL_DISTRO" == "arch" ]]; then
 elif [[ "$FINAL_DISTRO" == "debian" ]]; then
     echo "Debian Detected! Running Debian-specific setup..."
     bash scripts/debian.sh
+
+elif [[ "$FINAL_DISTRO" == "opensuse" ]]; then
+    echo "OpenSUSE Detected! Running OpenSUSE-specific setup..."
+    bash scripts/opensuse.sh
 
 else
     echo "No supported distribution detected. Proceeding with generic or placeholder tasks..."

@@ -1,0 +1,8 @@
+discord
+steam
+spotify-launcher
+libreoffice
+timeshift
+git
+vlc
+okular
