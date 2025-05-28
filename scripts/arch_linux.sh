@@ -3,7 +3,10 @@
 # === Details ===
 # Created by: Fuzzles92
 # Created: May 07 2025
-# Version: 1.4
+# Version: 1.5
+
+# === To DO ===
+# Add Yay Install Package Support
 
 # === Colour Definitions ===
 arch_start="\e[1;34m"
@@ -17,6 +20,8 @@ red_finish="\033[0m"
 
 # === Variables ===
 arch_packages="./config/arch_packages.txt"
+
+clear
 
 # === ASCII Art ===
 echo
@@ -54,7 +59,20 @@ update_system() {
         echo "Updating system via pacman..."
         sudo pacman -Syu --noconfirm
         if [ $? -eq 0 ]; then
+            echo
             echo -e "${green_start}✔ Arch Linux Update Complete${green_finish}"
+            echo
+
+            # Update GRUB
+            echo "Updating GRUB configuration..."
+            if sudo grub-mkconfig -o /boot/grub/grub.cfg; then
+                echo
+                echo -e "${green_start}✔ GRUB Configuration Updated Successfully${green_finish}"
+                echo
+            else
+                echo -e "${red_start}✖ Failed to update GRUB configuration.${red_finish}"
+            fi
+
         else
             echo -e "${red_start}✖ Update failed. Please check the error messages above.${red_finish}"
         fi
@@ -151,9 +169,28 @@ flatpak_prompt() {
     echo
 }
 
+create_timeshift_snapshot() {
+    echo
+    echo -e "${arch_start}Creating Timeshift Snapshot...${arch_finish}"
+
+    if ! command -v timeshift &>/dev/null; then
+        echo -e "${yellow_start}Timeshift is not installed. Installing now...${yellow_finish}"
+        sudo pacman -S --noconfirm timeshift
+    fi
+
+    if sudo timeshift --create --comments "Manual snapshot from Arch setup script" --tags D; then
+        echo
+        echo -e "${green_start}✔ Timeshift Snapshot Created Successfully.${green_finish}"
+    else
+        echo
+        echo -e "${red_start}✖ Failed to create Timeshift snapshot.${red_finish}"
+    fi
+}
+
 # === Menu Loop ===
 while true; do
     echo -e "${arch_start}Please choose an option:${arch_finish}"
+    echo "0) Create Timeshift Snapshot"
     echo "1) Update System"
     echo "2) Enable multilib"
     echo "3) Install packages from $arch_packages"
@@ -161,10 +198,11 @@ while true; do
     echo "5) Install Flatpak + Flathub"
     echo "6) Exit"
     echo
-    read -p "Enter choice [1-6]: " choice
+    read -p "Enter choice [0-6]: " choice
     echo
 
     case $choice in
+        0) create_timeshift_snapshot ;;
         1) update_system ;;
         2) enable_multilib ;;
         3) install_packages ;;
